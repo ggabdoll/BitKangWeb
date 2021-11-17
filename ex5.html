@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>지도 생성하기</title>
+
+</head>
+<body>
+<!-- 지도를 표시할 div 입니다 -->
+<div id="map" style="width:100vw;height:50vh;"></div>
+<div id="result"></div>
+
+<style>
+
+    .menuDiv {
+        display: flex;
+        margin: 50px;
+        justify-content: space-between;
+
+    }
+
+    .menuDiv > a {
+        text-decoration: none;
+        background-color: blue;
+        color: white;
+        font-size: large;
+        border-radius: 3px;
+        padding: 10px;
+    }
+
+</style>
+
+<div>
+    <button onclick="loadData('http://192.168.0.186:5555/w17/1team.json')">1팀</button>
+    <button onclick="loadData('http://192.168.0.223:5555/w17/2team.json')">2팀</button>
+    <button onclick="loadData('http://192.168.0.230:5555/w17/3team.json')">3팀</button>
+    <ul class="storeList">
+    </ul>
+</div>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7c61d410c4ceff420a426b91b665f614"></script>
+<script>
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+            center: new kakao.maps.LatLng(37.54819809498102,126.96768081960299), // 지도의 중심좌표
+            level: 4 // 지도의 확대 레벨
+        };
+
+    // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+    var map = new kakao.maps.Map(mapContainer, mapOption);
+</script>
+
+<script>
+
+  kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+
+      // 클릭한 위도, 경도 정보를 가져옵니다
+      var latlng = mouseEvent.latLng;
+
+    var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
+      message += '경도는 ' + latlng.getLng() + ' 입니다';
+
+    var resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = message;
+
+  });
+
+  const markerArr = []
+
+  function showMarkers(stores){
+
+      //기존 마커들은 지워야 한다.
+      for (let i = 0; i < markerArr.length; i++) {
+          markerArr[i].setMap(null)
+      }
+
+    for (let i = 0; i <stores.length ; i++) {
+        const store = stores[i]
+        const latLng = new kakao.maps.LatLng(store.lat, store.lng);
+        const marker = new kakao.maps.Marker({
+            map:map,
+            position: latLng,
+            title: store.name
+        })
+        markerArr.push(marker)
+    }//end for
+  }
+
+  function loadData(serverInfo){
+
+    console.log("loadData: " + serverInfo )
+
+    fetch(serverInfo)
+        .then(  response => response.json())
+        .then(  data => {
+            console.log(`data::::::::::::::${data}`)
+            makeList(data)
+        })
+
+  }
+
+  function makeList(arr){
+
+    const ulEle = document.querySelector(".storeList")
+      let str = ''
+
+    for (let i = 0; i < arr.length; i++) {
+        console.log(arr[i])
+        str += `<li data-name="${arr[i].name}" data-lat="${arr[i].lat}" data-lng="${arr[i].lng}" data-thumb="${arr[i].thumb}">${arr[i].name}</li>`
+    }
+
+    ulEle.innerHTML = str
+  }
+
+  document.querySelector(".storeList").addEventListener("click",(e)=>{
+      e.stopPropagation()
+      e.preventDefault()
+      const target = e.target
+
+    if(target.tagName !== `LI`){
+        return
+    }
+
+    console.log(target)
+      const name = target.getAttribute("data-name")
+      const lat = target.getAttribute("data-lat")
+      const lng = target.getAttribute("data-lng")
+      const thumb = target.getAttribute("data-thumb")
+      const thumbV =
+
+    console.log(`thumb::::::::::${thumb} lng:::::::::::${name}`)
+
+    var iwContent = `<div style="padding:5px;"><img src=${thumb}></div>`, // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+        iwPosition = new kakao.maps.LatLng(37.54819809498102,126.96768081960299), //인포윈도우 표시 위치입니다
+        iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+
+      // 인포윈도우를 생성하고 지도에 표시합니다
+      var infowindow = new kakao.maps.InfoWindow({
+          map: map, // 인포윈도우가 표시될 지도
+          position : iwPosition,
+          content : iwContent,
+          removable : iwRemoveable
+      });
+
+    const arr1=[]
+
+    console.log(name,lat,lng)
+      arr1.push({name:name,lat:lat,lng:lng,thumb:thumb})
+      showMarkers(arr1)
+
+  },false)
+
+</script>
+</body>
+</html>

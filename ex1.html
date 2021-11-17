@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>지도 생성하기</title>
+
+</head>
+<body>
+<!-- 지도를 표시할 div 입니다 -->
+<div id="map" style="width:100%;height:50vh;"></div>
+<div id="result"></div>
+
+<style>
+    .menuDiv {
+        margin: 30px;
+        display: flex;
+        justify-content: space-between;
+
+    }
+
+    .menuDiv > a {
+        text-decoration: none;
+        background-color: lightcoral;
+        color: white;
+        font-size: large;
+        border-radius: 3px;
+        padding: 10px;
+    }
+
+</style>
+
+<div class="menuDiv">
+<a href="전체">전체</a>
+<a href="고기">고기</a>
+<a href="카레">카레</a>
+</div>
+
+<img src="http://mblogthumb-phinf.pstatic.net/MjAyMDAzMTlfMjEg/MDAxNTg0NTg4ODk2MjU1.lo_b4t4UOLH3sc_DBovZ_fqdeCTMEvCW_O5E9CjAPg0g.wwJ3e2qTqXwk45bnnWg40rj_nyrBF1Hpshd5yzkRIbwg.JPEG.sielle83/DSC05389.JPG?type=w2">
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c8f7d520a867b4fccc1c7412d1b93337"></script>
+<script>
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+            center: new kakao.maps.LatLng(37.4923615,127.0292881), // 지도의 중심좌표
+            level: 4 // 지도의 확대 레벨
+        };
+
+    // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+    var map = new kakao.maps.Map(mapContainer, mapOption);
+</script>
+
+<script>
+
+    kakao.maps.event.addListener(map, 'center_changed', function() {
+
+        // 지도의  레벨을 얻어옵니다
+        var level = map.getLevel();
+
+        // 지도의 중심좌표를 얻어옵니다
+        var latlng = map.getCenter();
+
+        var message = '<p>지도 레벨은 ' + level + ' 이고</p>';
+        message += '<p>중심 좌표는 위도 ' + latlng.getLat() + ', 경도 ' + latlng.getLng() + '입니다</p>';
+
+        var resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = message;
+
+    });
+
+    const markerArr = []
+
+    function showMarkers(stores){
+        //기존마커
+        for (let i = 0; i < markerArr.length; i++) {
+            markerArr[i].setMap(null)
+        }
+
+        for (let i = 0; i < stores.length; i++) {
+
+            const store = stores[i]
+            const latlng = new kakao.maps.LatLng(store.lat, store.lng);
+            const marker = new kakao.maps.Marker({
+                map:map,
+                position:latlng,
+                title:store.name
+            })
+            markerArr.push(marker)
+        }//end for
+
+    }
+
+
+    const arr = [
+        {name:'남영돈', lat: 37.54288041734663,  lng: 126.97382677097745, menu: '고기',},
+        {name:'서서갈비', lat: 37.56854052302683,  lng: 127.06983006164066, menu: '고기',},
+        {name:'조연탄', lat: 37.531009819715884,  lng: 126.86327932680119, menu: '고기',},
+        {name:'선명구이가', lat: 37.54732383273151,  lng: 126.97833858262574, menu: '고기',},
+        {name:'타지팰리스', lat: 37.544507318210925,  lng: 126.99151164678572, menu: '카레',},
+        {name:'죠티인도', lat: 37.55504468019195,  lng: 126.93792936192362, menu: '카레',},
+        {name:'예티', lat: 37.56556347662489,  lng: 126.92337871533127, menu: '카레',},
+    ]
+
+    showMarkers(arr)
+
+    document.querySelector(".menuDiv").addEventListener("click", (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+
+        const target = e.target
+
+        if(target.tagName !== 'A'){
+            return
+        }
+        console.log("A태그 클릭")
+        const keyword = target.getAttribute("href")
+
+        if(keyword !== '전체'){
+            const result = arr.filter(s => s.menu === keyword)
+
+            showMarkers(result)
+        }else {
+            showMarkers(arr)
+        }
+    },false)
+
+</script>
+
+</body>
+</html>

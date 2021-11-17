@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button id="btn">
+버튼
+</button>
+<script>
+
+    document.querySelector('#btn').addEventListener("click", function (){
+
+
+
+    }, false)
+
+
+    fetch("http://192.168.0.186:5555/w17/1team.json")
+    .then(function (response){
+        return response.json()
+    })
+    .then(function (myJson){
+        console.log()
+    })
+
+    function makeList(arr){
+        //const  ulEle = document.querySelector(".storeList")
+        //<li data-name:''></li>
+    }
+
+    document.querySelector(.storeList).addEventListener("click", (e) => {
+        e.stopPropagation()
+        e.preventDefault()
+        const target = e.target
+
+        if(target.tagName !== 'LI'){
+            return
+        }
+        console.log(target)
+        const name = target.getAttribute('data-name')
+        const lat = target.getAttribute('data-lat')
+        const lng = target.getAttribute('data-lng')
+
+        console.log(name, lat, lng)
+    },false)
+
+
+</script>
+
+</body>
+</html>
