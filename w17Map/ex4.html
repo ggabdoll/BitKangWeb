@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="map" style="width:100vw;height:50vh;"></div>
+<div>
+    <button onclick="changeData()">1팀</button>
+    <button onclick="changeData()">2팀</button>
+    <button onclick="changeData()">3팀</button>
+</div>
+
+<ul class="storeList">
+</ul>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7c61d410c4ceff420a426b91b665f614"></script>
+<script src="ex4.js"></script>
+
+<script>
+
+    storeService.loadData("./3team.json", (arr) => {
+        makeList(arr)
+        showMarkers()} )
+
+    const markerArr = []
+
+    function showMarkers(stores){
+
+        //기존 마커들은 지워야 한다.
+        for (let i = 0; i < markerArr.length; i++) {
+            markerArr[i].setMap(null)
+        }
+
+        for (let i = 0; i <stores.length ; i++) {
+            const store = stores[i]
+            const latLng = new kakao.maps.LatLng(store.lat, store.lng);
+            const marker = new kakao.maps.Marker({
+                map:map,
+                position: latLng,
+                title: store.name
+            })
+            markerArr.push(marker)
+        }//end for
+    }
+
+    function changeData() {
+        storeService.loadData("./3team.json", (arr) => {
+            makeList(arr)
+            showMarkers()} )
+    }
+
+    function makeList(stores) {
+        const storeULEL = document.querySelector(".storeList")
+        let str = ''
+
+        for (let i = 0; i < arr.length; i++) {
+            console.log(arr[i])
+            str += `<li data-name="${arr[i].name}" data-lat="${arr[i].lat}" data-lng="${arr[i].lng}" data-thumb="${arr[i].thumb}">${arr[i].name}</li>`
+        }
+
+        storeULEL.innerHTML = str
+    }
+
+    document.querySelector(".storeList").addEventListener("click", (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        const target = e.target
+
+        const idx = target.getAttribute("data-name")
+    },false)
+
+</script>
+
+</body>
+</html>

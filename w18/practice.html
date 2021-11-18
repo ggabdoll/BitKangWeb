@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>키오스크</title>
+</head>
+<body>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    body {
+        display: flex;
+    }
+    .row {
+        width: 100vw;
+    }
+    .header {
+        display: flex;
+        background-color: #66806A;
+        color: white;
+        height: 10vh;
+        align-items: center;
+    }
+    .header div {
+        position: relative;
+left: 120px;
+    }
+    .main {
+        display: flex;
+        height: 90vh;
+    }
+    .main .menuDiv {
+        background-color: white;
+        width: 70vw;
+        overflow: auto;
+        height: 90vh;
+        text-align: center;
+    }
+
+    .menuList{
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        overflow: auto;
+        flex-wrap: wrap;
+    }
+    /*::-webkit-scrollbar{*/
+    /*    display: none;*/
+    /*}*/
+    .main .orderDiv {
+        height: 90vh;
+        width: 30vw;
+        background-color: #E8E1D9;
+
+    }
+    .orderList{
+        height: 80vh;
+        overflow: auto;
+    }
+    .orderDiv h1 {
+        margin-left: 8px;
+    }
+    .mdiv {
+        width: 130px;
+        height: 200px;
+        margin: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    .menuDiv img {
+        width: 100px;
+        height: 120px;
+    }
+    .pop {
+        display: flex;
+        background-color: white;
+        position: absolute;
+        width: 100%;
+        height: 100vh;
+        /*opacity: 0.3;*/
+        justify-content: center;
+        vector-align:center;
+        align-items: center;
+        transform: scale(0.5);
+        /*z-index: -1000;*/
+    }
+
+    .show {
+        z-index: 1000;
+
+    }
+    .hide {
+        z-index: -1000;
+    }
+    .name {
+        position: relative;
+        margin: 3px;
+        font-weight: bold;
+    }
+    .orderLi {
+
+        margin: 8px;
+    }
+    .totalDiv div {
+        position: relative;
+        top: 1px;
+        color: #1597E5;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .totalDiv {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+    .totalDiv button {
+        align-self: flex-end;
+        border: 0;
+        height: 25px;
+        width: 40px;
+        border-radius: 10px;
+        color: white;
+        background-color:#E02401;
+        text-align: center;
+    }
+    .cost {
+        margin: 0;
+        height: 5vh;
+    }
+</style>
+
+
+<div class="container">
+    <div class="pop hide">
+        <img src="img/c02.jpg">
+        <h3>ADD CART</h3>
+    </div>
+
+    <div class="row header">
+        <div>
+<h1>내 돈 다 뺐어가</h1>
+        </div>
+    </div>
+    <div class="row main">
+
+        <div class="menuDiv">
+            <h1>MENU</h1>
+            <ul class="menuList">
+
+            </ul>
+        </div>
+
+        <div class="orderDiv">
+            <h1>ORDER</h1>
+            <ul class="orderList">
+
+            </ul>
+            <div class="cost"></div>
+        </div>
+
+    </div>
+</div>
+
+<script src="practice.js"></script>
+
+</body>
+</html>
