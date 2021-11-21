@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EX1</title>
+</head>
+<body>
+<style>
+    .red {
+        color: red;
+        width: 300px;
+        height: 600px;
+        background-color: #66806A;
+    }
+</style>
+<h1 class="aaa">AAA</h1>
+<h1>BBB</h1>
+<h1>CCC</h1>
+<a data-idx="1">ddd</a>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
+
+<script>
+ $("a").attr("href", "mp3/ccc.mp3").addClass("red").show("slow", 5000)
+
+ $("h1").on("click", e => {
+     alert("1111")
+ })
+
+ const bbb = $("a").attr('data-idx')
+ console.log(bbb)
+
+ $(".aaa").html(`<a>hhhh</a>`)
+
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CoCoMent</title>
+</head>
+<body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
+<style>
+    li {
+        width: 80px;
+        height: 30px;
+        background-color: #66806A;
+        list-style: none;
+        margin: 5px;
+    }
+
+</style>
+<div>
+    <button id="start">START</button>
+</div>
+<ul>
+
+</ul>
+
+<script>
+$(document).ready(function (e){
+    let idx = 0
+
+    $("#start").on("click", e => {
+        $("ul").append(`<li class="dd", data-idx=${idx}><button class="plus">+</button><button class="minus">-</button></li>`)
+    })
+
+   $("ul").on("click", ".plus", function(e) {
+       const tar = $(e.target).closest("li")
+       tar.append(`<ul><li data-idx="${idx+=1}"><button class="plus">+</button><button class="minus">-</button></li></ul>`)
+       const IDX = tar.attr('data-idx')
+   })
+    $("ul").on("click", ".minus", function (e){
+        const target = $(e.target).closest("li")
+        console.log($(target))
+        target.remove()
+    })
+
+})
+</script>
+</body>
+</html>

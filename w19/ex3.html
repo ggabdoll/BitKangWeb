@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<style>
+    ul {
+        display: flex;
+        list-style: none;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
+<ul>
+    <li class="kkk"><img src="img/c02.jpg"><span>X</span></li>
+    <li><img src="img/c03.jpg"><span>X</span></li>
+    <li><img src="img/c05.jpg"><span>X</span></li>
+</ul>
+
+<script>
+    $(document).ready(function (e) {
+        const kkk = $(".kkk")
+        $("ul").on("click", "span", function (e){
+
+            const targetEl = $(e.target).closest("li")
+            console.log(targetEl)
+            targetEl.hide(500, function(e) {
+                targetEl.remove()
+            })
+        })
+
+
+
+    })
+</script>
+
+
+</body>
+</html>
