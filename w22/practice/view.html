@@ -96,7 +96,7 @@
             }
             .cost {
                 position: relative;
-                left:25%;
+                left:6%;
                 font-size: 3vw;
                 font-weight: bold;
                 color: #0c63e4;
@@ -197,7 +197,7 @@
                     Total
                     </div>
                     <div class="payBox">
-                        <div class="cost">23000</div>
+                        <div class="cost"></div>
                         <div class="payText">
                             <div class="pay">PAY</div>
                         </div>
@@ -314,8 +314,6 @@
                     let sum = 0
                     $(".add").on("click", function (e) {
                         const menu = menus[index]
-                        const name = menus[index].name
-                        const price = menus[index].price
 
                         if(count == 0){
                             return
@@ -323,22 +321,19 @@
 
                         order.push({...menu, qty : count})
                         }
-                        console.log(order)
+                        //console.log(order)
 
                         let orderStr = ''
-                        let orderqty = ''
                     for (let i = 0; i < order.length; i++) {
                        const orderProduct = order[i]
-                        orderqty = {qyt : orderProduct.qty, name : orderProduct.name}
-                        orderStr = `<li class="orderDiv" data-idx="{i}">
+
+                        orderStr = `<li class="orderDiv" data-idx="${i}">
                                         <div class="product">${orderProduct.name} : ${orderProduct.price}원</div>
                                         <div class="qty">${orderProduct.qty}</div>
-                                        <div style="margin: 3px">❌</div>
                                     </li>`
                         sum += orderProduct.qty * orderProduct.price
                     }
-                    //console.log("ayt::",orderStr)
-                    $(".cost").html(`<div class=\"cost\">${sum}</div>`)
+                    $(".cost").html(`<div class=\"cost\">💸${sum}</div>`)
 
 
                     $(".orderList").append(orderStr)
@@ -348,8 +343,8 @@
                     $(".qty").css({"background-color" : "#0c63e4", "color": "white", "width" : "30px", "height": "25px",
                                     "border-radius": '40px', "text-align": 'center', "position":"relative", "top" : '2px'
                                     })
-                myModal.hide()
-                    })
+                    myModal.hide()
+                      })
                 })
             })
         })
@@ -378,3 +373,4 @@
 </script>
 </body>
 </html>
+
