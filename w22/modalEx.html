@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>Modal</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+</head>
+<body>
+<style>
+    /**{*/
+    /*    margin: 0;*/
+    /*    padding: 0;*/
+    /*}*/
+    body {
+        display: flex;
+    }
+    .row {
+        width: 100vw;
+    }
+    .header {
+        display: flex;
+        color: white;
+        height: 14vh;
+        align-items: center;
+        border-bottom: 2px solid #FF001E;
+        background-color: #FF001E;
+    }
+    .header div {
+        position: relative;
+        left: 120px;
+    }
+    .main {
+        display: flex;
+        height: 85vh;
+    }
+    .main .menuDiv {
+        border-right: 2px solid #FF001E;
+        background-color: white;
+        width: 70vw;
+        overflow: auto;
+        height: 85vh;
+        text-align: center;
+    }
+
+    .menuList{
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        overflow: auto;
+        flex-wrap: wrap;
+    }
+    /*::-webkit-scrollbar{*/
+    /*    display: none;*/
+    /*}*/
+    .main .orderDiv {
+        height: 85vh;
+        width: 30vw;
+
+    }
+    .orderList{
+        height: 70vh;
+        overflow: auto;
+        border-color: #66806A;
+    }
+    .orderDiv h1 {
+        margin-left: 8px;
+    }
+    .mdiv {
+        width: 130px;
+        height: 200px;
+        margin: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    .menuDiv img {
+        width: 100px;
+        height: 120px;
+    }
+    .pop {
+        display: flex;
+        background-color: white;
+        position: absolute;
+        width: 100%;
+        height: 100vh;
+        /*opacity: 0.3;*/
+        justify-content: center;
+        vector-align:center;
+        align-items: center;
+        transform: scale(0.5);
+        /*z-index: -1000;*/
+    }
+
+    .show {
+        z-index: 1000;
+
+    }
+    .hide {
+        z-index: -1000;
+    }
+    .name {
+        position: relative;
+        margin: 3px;
+        font-weight: bold;
+    }
+    .orderLi {
+
+        margin: 8px;
+    }
+    .totalDiv {
+        display: flex;
+        background-color: #FF001E;
+        color: white;
+        width: 130px;
+        height: 100px;
+        justify-content: center;
+        align-items: center;
+    }
+    .totalDiv >div {
+        position: relative;
+        font-weight: bold;
+        color: white;
+        font-size: 55px;
+    }
+    .submit button {
+        border: 0;
+        height: 25px;
+        width: 40px;
+        background-color: white;
+        color: #FF001E;
+        text-align: center;
+        font-size: 30px;
+    }
+    .submit {
+        display: flex;
+        border-left: 2px solid #FF001E;
+        width: 110px;
+        height: 100px;
+        justify-content: center;
+        align-items: center;
+    }
+    .cost {
+        display: flex;
+        margin: 0;
+        height: 5vh;
+        border-top : 2px solid #FF001E;
+        justify-content: space-between;
+    }
+    .logo {
+        width: 180px;
+        height: 140px;
+        border-radius: 70px;
+    }
+</style>
+<div class="container-fluid">
+
+    <div class="row header">
+        <div>
+            <img class="logo" src="KakaoTalk_20211122_183829256.jpg">
+        </div>
+    </div>
+    <div class="row main">
+
+        <div class="menuDiv">
+            <div id="tabs">
+                <ul>
+                    <li><a href="#result" data-url="./1team.json"> JUICE </a></li>
+                    <li><a href="#result" data-url="./2team.json"> COFFEE </a></li>
+                    <li><a href="#result" data-url="./3team.json"> LATE </a></li>
+                </ul>
+                <div id="result">
+                    <h3>RESULT DIV</h3>
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Launch demo modal
+            </button>
+            <h1>MENU</h1>
+            <ul class="menuList">
+            </ul>
+        </div>
+
+        <div class="orderDiv">
+            <h1>ORDER</h1>
+            <ul class="orderList">
+
+            </ul>
+            <div class="cost"><div class="totalDiv"><div class=>Total</div></div> <div class="submit"><button>Pay</button></div></div>
+        </div>
+
+    </div>
+
+
+<div class="modal" tabindex="-1" id="exampleModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function (){
+
+            const myModal = new bootstrap.Modal(document.querySelector('#exampleModal'))
+
+        $("#btn").on("click", function (e) {
+
+            $(".modal-body").html("<img src=\"img/c02.jpg\">")
+
+            myModal.show()
+            // relatedTarget
+        })
+
+        $("#m2").on("click", function (e) {
+
+            $(".modal-body").html("<img src=\"img/c03.jpg\">")
+
+            myModal.show()
+            // relatedTarget
+        })
+
+    })
+</script>
+</body>
+</html>

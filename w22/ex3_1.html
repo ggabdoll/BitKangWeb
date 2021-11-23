@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<select name="category">
+    <option value="0" >---</option>
+    <option value="./1team.json" >한식</option>
+    <option value="./2team.json">일식</option>
+    <option value="./3team.json">프렌차이즈</option>
+</select>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="store.js"> </script>
+<script>
+    storeService().loadJson("./1team.json", function (arr) {
+        console.log(arr)
+    })
+</script>
+</body>
+</html>

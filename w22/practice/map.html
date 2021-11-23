@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>MAP</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+</head>
+<body>
+<style>
+    .col-md-8 {
+        background-color: #fff;
+        height: 100vh;
+        padding: 0;
+    }
+    .col-md-4 {
+        background-color: #777;
+    }
+</style>
+
+<div class="row">
+    <!--    음식점 리스트 화면 보이는 부분-->
+    <div class="col-6 col-md-4">
+        <div id="tabs">
+            <ul>
+                <li><a href="#result1" data-url = "./3team.json" data-idx =0>돼지고기집</a></li>
+                <li><a href="#result2" data-url = "./1team.json" data-idx =1>공연장</a></li>
+                <li><a href="#result3" data-url = "./2team.json" data-idx =2>한식집</a></li>
+            </ul>
+            <div id="result1">
+                <ul>
+                    <li>남영돈</li>
+                    <li>조연탄</li>
+                    <li>선명구이가</li>
+                    <li>서서갈비</li>
+                </ul>
+            </div>
+            <div id="result2">
+
+            </div>
+            <div id="result3">
+
+            </div>
+        </div>
+
+    </div>
+    <!--    지도 화면 보이는 부분-->
+    <div class="col-md-8">
+        <div id="map" style="width:100%;height:80%;"></div>
+        <p><em>지도를 클릭해주세요!</em></p>
+        <div id="clickLatlng"></div>
+    </div>
+</div>
+
+
+<!--부트 스트랩 사용 하는 js 파일 link-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+<!--화면에 지도 표시하는 부분-->
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7c61d410c4ceff420a426b91b665f614"></script>
+<script>
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+            center: new kakao.maps.LatLng(37.49956879249571, 127.028993311613), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
+        };
+
+
+    // #클릭한 좌표 표시하기 표시하기
+    // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+    var map = new kakao.maps.Map(mapContainer, mapOption);
+    // 지도를 클릭한 위치에 표출할 마커입니다
+    var marker = new kakao.maps.Marker({
+        // 지도 중심좌표에 마커를 생성합니다
+        position: map.getCenter()
+    });
+    // 지도에 마커를 표시합니다
+    marker.setMap(map);
+
+    // 지도에 클릭 이벤트를 등록합니다
+    // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+
+        // 클릭한 위도, 경도 정보를 가져옵니다
+        var latlng = mouseEvent.latLng;
+
+        // 마커 위치를 클릭한 위치로 옮깁니다
+        marker.setPosition(latlng);
+
+        var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
+        message += '경도는 ' + latlng.getLng() + ' 입니다';
+
+        var resultDiv = document.getElementById('clickLatlng');
+        resultDiv.innerHTML = message;
+
+    });
+
+    //    화면 왼쪽에 탭스 띄우는 함수
+    $(document).ready(function () {
+        $("#tabs").tabs()
+        let stores = []
+        const markerArr = []
+        function showMarkers(stores){
+
+            //기존 마커들은 지워야 한다.
+            for (let i = 0; i < markerArr.length; i++) {
+                markerArr[i].setMap(null)
+            }
+
+            for (let i = 0; i <stores.length ; i++) {
+                const store = stores[i]
+                const latLng = new kakao.maps.LatLng(store.lat, store.lng);
+                const marker = new kakao.maps.Marker({
+                    map:map,
+                    position: latLng,
+                    title: store.name
+                })
+                markerArr.push(marker)
+            }//end for
+        }
+        $("#tabs a").on('click' , function (e){
+            e.stopPropagation()
+            e.preventDefault()
+            const target = e.target
+            // console.log(target)
+            const url = $(e.target).data("url")
+            // console.log(url)
+            $.getJSON(url, function (arr) {
+                // console.log(arr)
+                stores = arr
+                console.log(stores)
+                let str = '<ul>'
+                for (let i = 0; i < stores.length; i++) {
+                    str += `<li>${stores[i].name}</li>`
+                }
+                str += '</ul>'
+                $("#result1").html(str)
+                $("#result2").html(str)
+                $("#result3").html(str)
+                showMarkers(stores)
+            })
+
+            //    마커만드는 부분
+
+
+        })//tab a tag click
+    })
+</script>
+
+</body>
+</html>

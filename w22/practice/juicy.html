@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Juicy</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+</head>
+<body>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    body {
+        display: flex;
+    }
+    .row {
+        width: 100vw;
+    }
+    .header {
+        display: flex;
+        color: white;
+        height: 14vh;
+        align-items: center;
+        border-bottom: 2px solid #FF001E;
+        background-color: #FF001E;
+    }
+    .header div {
+        position: relative;
+        left: 120px;
+    }
+    .main {
+        display: flex;
+        height: 85vh;
+    }
+    .main .menuDiv {
+        border-right: 2px solid #FF001E;
+        background-color: white;
+        width: 70vw;
+        overflow: auto;
+        height: 85vh;
+        text-align: center;
+    }
+
+    .menuList{
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        overflow: auto;
+        flex-wrap: wrap;
+    }
+    /*::-webkit-scrollbar{*/
+    /*    display: none;*/
+    /*}*/
+    .main .orderDiv {
+        height: 85vh;
+        width: 30vw;
+
+    }
+    .orderList{
+        height: 70vh;
+        overflow: auto;
+        border-color: #66806A;
+    }
+    .orderDiv h1 {
+        margin-left: 8px;
+    }
+    .mdiv {
+        width: 130px;
+        height: 200px;
+        margin: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    .menuDiv img {
+        width: 100px;
+        height: 120px;
+    }
+    .pop {
+        display: flex;
+        background-color: white;
+        position: absolute;
+        left: 500px;
+        width: 600px;
+        height: 700px;
+        justify-content: center;
+        vector-align:center;
+        align-items: center;
+        border-radius: 20px;
+        border: 2px solid #FF001E;
+        transform: scale(0.5);
+    }
+
+    .show {
+        z-index: 1000;
+
+    }
+    .hide {
+        z-index: -1000;
+    }
+    .name {
+        position: relative;
+        margin: 3px;
+        font-weight: bold;
+    }
+    .orderLi {
+
+        margin: 8px;
+    }
+    .totalDiv {
+        display: flex;
+        background-color: #FF001E;
+        color: white;
+        width: 130px;
+        height: 100px;
+        justify-content: center;
+        align-items: center;
+    }
+    .totalDiv >div {
+        position: relative;
+        font-weight: bold;
+        color: white;
+        font-size: 55px;
+    }
+    .submit button {
+        border: 0;
+        height: 25px;
+        width: 40px;
+        background-color: white;
+        color: #FF001E;
+        text-align: center;
+        font-size: 30px;
+    }
+    .submit {
+        display: flex;
+        border-left: 2px solid #FF001E;
+        width: 110px;
+        height: 100px;
+        justify-content: center;
+        align-items: center;
+    }
+    .cost {
+        display: flex;
+        margin: 0;
+        height: 5vh;
+        border-top : 2px solid #FF001E;
+        justify-content: space-between;
+    }
+    .logo {
+        width: 180px;
+        height: 140px;
+        border-radius: 70px;
+    }
+</style>
+
+<div class="container">
+    <div class="pop hide">
+        <h3>ADD CART</h3>
+    </div>
+    <div class="row header">
+        <div>
+            <img class="logo" src="KakaoTalk_20211122_183829256.jpg">
+        </div>
+    </div>
+    <div class="row main">
+
+        <div class="menuDiv">
+            <div id="tabs">
+                <ul>
+                    <li><a href="#result" data-url="./1team.json"> JUICE </a></li>
+                    <li><a href="#result" data-url="./2team.json"> COFFEE </a></li>
+                    <li><a href="#result" data-url="./3team.json"> LATE </a></li>
+                </ul>
+                <div id="result">
+                    <h3>RESULT DIV</h3>
+                </div>
+            </div>
+
+            <button id="please">CLICK</button>
+            <h1>MENU</h1>
+
+            <ul class="menuList">
+            </ul>
+        </div>
+
+        <div class="orderDiv">
+            <h1>ORDER</h1>
+            <ul class="orderList">
+
+            </ul>
+            <div class="cost"><div class="totalDiv"><div class=>Total</div></div> <div class="submit"><button>Pay</button></div></div>
+        </div>
+
+    </div>
+
+
+</div>
+
+<script>
+    $(document).ready(function (){
+        $("#tabs").tabs()
+
+        $("#tabs a").on("click", function (e) {
+            e.preventDefault()
+            e.stopPropagation()
+
+            const url = $(e.target).data("url")
+
+            $.getJSON(url, function (arr){
+                console.log(arr)
+            })
+        })
+
+$("#please").on("click", function (e){
+    const pop = document.querySelector(".pop")
+const pop2 = $(".pop")
+    pop2.attr("class", "pop show")
+    console.log(pop2)
+})
+        $(".pop").on("click", function (e){
+            $(".pop").attr("class", "pop hide")
+        })
+
+
+
+    })
+</script>
+</body>
+</html>
